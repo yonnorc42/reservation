@@ -127,9 +127,6 @@ def get_reservation_day(days_ahead=2):
 
 	return day, month, year
 
-def check_for_success():
-
-
 
 
 if __name__ == "__main__":
