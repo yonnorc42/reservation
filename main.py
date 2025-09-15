@@ -101,6 +101,18 @@ def main():
 	create_button.click()
 
 	# TODO: Add a check to see if the reservation is successful. If not, automate trying a different room like 405 or 409
+	try:
+		message = WebDriverWait(driver, 10).until(
+			EC.presence_of_element_located(
+				(By.CSS_SELECTOR, "#created-message, #failed-message")
+			)
+		)
+		if message.get_attribute("id") == "created-message":
+			print("Reservation created successfully!")
+		else:
+			print("Reservation could not be made.")
+	except:
+		print("No success or failure message appeared")
 
 
 ###########################################################################################################
@@ -114,6 +126,10 @@ def get_reservation_day(days_ahead=2):
 	year = two_days_later.year
 
 	return day, month, year
+
+def check_for_success():
+
+
 
 
 if __name__ == "__main__":
