@@ -1,16 +1,23 @@
 import os
+import tempfile
 from datetime import datetime, timedelta
-
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import Select
-from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support.ui import Select, WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-def main():	
-	# Set up the Chrome WebDriver (make sure you have the correct driver installed and in your PATH)
-	driver = webdriver.Chrome()
+def main():    
+	# Set up Chrome WebDriver with options for no gui
+	options = Options()
+	options.add_argument("--headless=new")
+	options.add_argument("--disable-gpu")
+	options.add_argument("--no-sandbox")
+	options.add_argument("--disable-dev-shm-usage")
+	options.add_argument("--window-size=1920,1080")
+	options.add_argument(f"--user-data-dir={tempfile.mkdtemp()}")
+	driver = webdriver.Chrome(options=options)
 
 	# Open reservation website
 	driver.get("https://reserve.et.byu.edu/reservations/Web/dashboard.php")
@@ -55,7 +62,7 @@ def main():
 	title_field = WebDriverWait(driver, 10).until(
 		EC.presence_of_element_located((By.NAME, "reservationTitle"))
 	)
-	title_field.send_keys("Capstone Team 22")
+	title_field.send_keys("Decimators")
 
 	description_field = WebDriverWait(driver, 10).until(
 		EC.presence_of_element_located((By.NAME, "reservationDescription"))
@@ -89,6 +96,7 @@ def main():
 	end_dropdown = WebDriverWait(driver, 10).until(
 		EC.presence_of_element_located((By.NAME, "endPeriod"))
 	)
+
 	begin_dropdown = Select(begin_dropdown)
 	end_dropdown = Select(end_dropdown)
 	begin_dropdown.select_by_value("08:00:00")
@@ -119,7 +127,7 @@ def main():
 # ADJUST THIS IF THE RESERVATION LIMIT IS MORE THAN 2 DAYS
 # JUST CHANGE days=2 TO HOWEVER MANY DAYS AHEAD YOU WANT
 ###########################################################################################################
-def get_reservation_day(days_ahead=2):
+def get_reservation_day(days_ahead=3):
 	two_days_later = datetime.now() + timedelta(days=days_ahead)
 	day = two_days_later.day
 	month = two_days_later.month - 1
