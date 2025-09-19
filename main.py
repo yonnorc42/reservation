@@ -43,11 +43,11 @@ def main():
 
 	# If there's no wait time here, the reserve button hasn't loaded yet so it crashes so
 	# I use WebDriverWait to wait until the button is clickable before trying to select it
-	# This is for EB 407. To select a different room, change the CSS_SELECTOR to the reservation
+	# This is for EB 405. To select a different room, change the CSS_SELECTOR to the reservation
 	# string for the room you want, you'll have to go to the reservation page and inspect the code
 	# for your room's string
 	reserve_button = WebDriverWait(driver, 10).until(
-		EC.element_to_be_clickable((By.CSS_SELECTOR, "a[href='reservation.php?rid=5']"))
+		EC.element_to_be_clickable((By.CSS_SELECTOR, "a[href='reservation.php?rid=29']"))
 	)
 	reserve_button.click()
 
